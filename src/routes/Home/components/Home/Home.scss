@@ -1,9 +1,14 @@
 @import 'base';
 .container {
-  @extend .flex-column-center;
+  @extend .flex-row-center;
   padding-top: 4rem;
 }
-
+.paper {
+  @extend .flex-column-center;
+  justify-content: center;
+  flex-basis: 60%;
+  min-height: 10rem;
+}
 .section {
   @extend .flex-column-center;
   margin-left: 1rem;

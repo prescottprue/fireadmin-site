@@ -3,7 +3,7 @@ root: true
 parser: babel-eslint
 
 extends: [standard, standard-react, prettier]
-plugins: [babel, react, prettier]
+plugins: [babel, react]
 
 env:
   browser: true

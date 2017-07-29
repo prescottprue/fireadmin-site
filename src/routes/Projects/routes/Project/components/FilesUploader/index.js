@@ -1,3 +1,3 @@
-import FilesUploader from './FilesUploader';
+import FilesUploader from './FilesUploader'
 
-export default FilesUploader;
+export default FilesUploader

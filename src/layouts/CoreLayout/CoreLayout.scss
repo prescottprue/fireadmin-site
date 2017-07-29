@@ -3,6 +3,7 @@
 .container {
   height: 100%;
   overflow-y: hidden;
+  width: 100%;
 }
 .children {
   height: calc(100% - 48px);

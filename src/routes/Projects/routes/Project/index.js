@@ -1,7 +1,5 @@
-// import { injectReducer } from '../../../../store/reducers'
-
 export default (store) => ({
-  path: ':projectname',
+  path: ':projectId',
   /*  Async getComponent is only invoked when route matches   */
   getComponent (nextState, cb) {
     /*  Webpack - use 'require.ensure' to create a split point
@@ -11,8 +9,6 @@ export default (store) => ({
           dependencies for bundling   */
       const Project = require('./containers/ProjectContainer').default
       // const reducer = require('./modules/reducer').default
-
-      // injectReducer(store, { key: 'tabs', reducer })
 
       /*  Return getComponent   */
       cb(null, Project)

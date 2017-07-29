@@ -3,16 +3,7 @@ import PropTypes from 'prop-types'
 import Dropzone from 'react-dropzone'
 import LoadingSpinner from 'components/LoadingSpinner'
 import UploadIcon from 'material-ui/svg-icons/file/cloud-upload'
-import { colors } from 'styles/colors'
 import classes from './FilesUploader.scss'
-
-const acceptedImageFormats = [
-  'image/png',
-  'image/jpg',
-  'image/jpeg',
-  'image/gif',
-  'image/bmp',
-]
 
 export const FilesUploader = ({
   onFilesDrop,
@@ -20,6 +11,8 @@ export const FilesUploader = ({
   isCompact,
   maxSelection,
   disabled,
+  acceptedFormats,
+  label
 }) => (
   <div className={classes.container}>
     {
@@ -30,18 +23,18 @@ export const FilesUploader = ({
           className={`${classes.dropzone} ${isCompact && classes.dropzoneCompact}`}
           activeClassName={classes.dropzoneActive}
           disableClick={disabled}
-          accept={maxSelection === 1 ? acceptedImageFormats.join(', ') : undefined}
+          accept={maxSelection === 1 ? acceptedFormats.join(', ') : undefined}
         >
           <UploadIcon
             className={classes[`icon${isCompact ? 'Compact' : ''}`]}
-            color={colors.jellyBean}
-            hoverColor={colors.alto}
+            // color={colors.jellyBean}
+            // hoverColor={colors.alto}
           />
           <div className={classes[`dropzone${isCompact ? 'Text' : 'Title'}`]}>
-              Drag & Drop
+            Drag & Drop
           </div>
           <div className={classes.dropzoneText}>
-            your files here or <span className="underline">browse</span>
+            {label} or <span className='underline'>browse</span>
           </div>
         </Dropzone>
       :
@@ -57,7 +50,21 @@ FilesUploader.propTypes = {
   maxSelection: PropTypes.number,
   isCompact: PropTypes.bool,
   isUploading: PropTypes.bool,
+  label: PropTypes.string,
+  acceptedFormats: PropTypes.array,
   disabled: PropTypes.bool,
+}
+
+FilesUploader.defaultProps = {
+  label: 'files',
+  acceptedFormats: [
+    // 'image/png',
+    // 'image/jpg',
+    // 'image/jpeg',
+    // 'image/gif',
+    // 'image/bmp',
+    'application/json'
+  ]
 }
 
 export default FilesUploader

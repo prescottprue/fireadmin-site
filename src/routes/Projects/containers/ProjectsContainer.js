@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import { map } from 'lodash'
 import { connect } from 'react-redux'
@@ -31,6 +31,7 @@ export default class Projects extends Component {
 
   static propTypes = {
     children: PropTypes.object,
+    auth: PropTypes.object,
     projects: PropTypes.object,
     firebase: PropTypes.object
   }
@@ -61,9 +62,13 @@ export default class Projects extends Component {
 
   render () {
     // Project Route is being loaded
-    if (this.props.children) return this.props.children
+    const { projects, auth } = this.props
+    //
+    if (!isLoaded(auth)) {
+      return <LoadingSpinner />
+    }
+    if (this.props.children) return cloneElement(this.props.children, { auth })
 
-    const { projects } = this.props
     const { newProjectModal } = this.state
 
     if (!isLoaded(projects)) {

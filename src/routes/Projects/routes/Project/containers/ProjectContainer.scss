@@ -1,7 +1,10 @@
 @import 'base';
 
-.progress {
+.container {
   @extend .flex-row-center;
-  align-items: center;
-  padding-top: 8rem;
+  padding-top: 5rem;
+}
+.paper {
+  @extend .flex-column-center;
+  flex-basis: 60%;
 }

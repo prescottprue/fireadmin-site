@@ -1,6 +1,19 @@
 {
   "rules": {
-    ".read": true,
-    ".write": true
+    ".read": "auth !== null",
+    ".write": "auth !== null",
+    "serviceAccounts": {
+      "$serviceAccountId": {
+        ".read": "auth !== null",
+        ".write": "auth !== null"
+      }
+    },
+    "usersPublic": {
+    },
+    "users": {
+      "$uid": {
+        ".write": "auth !== null && $uid === auth.uid"
+      },
+    }
   }
 }

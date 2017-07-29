@@ -4,10 +4,7 @@ import classes from './Instances.scss'
 
 export const Instances = ({ instances }) => (
   <div className={classes.container}>
-    <h1>Instances</h1>
-    <div>
-      <pre>{JSON.stringify(instances, null, 2)}</pre>
-    </div>
+    <pre>{JSON.stringify(instances, null, 2)}</pre>
   </div>
 )
 

@@ -4,11 +4,6 @@
   flex-basis: 80%;
   width: 100%;
   margin-bottom: .75rem;
-  &two-rows {
-    min-height: 12rem;
-    margin-bottom: 1rem;
-    color: red !important;
-  }
 }
 .dropzone {
   @extend .flex-column-center;
@@ -16,36 +11,29 @@
   flex-wrap: wrap;
   width: 100%;
   cursor: pointer;
-  min-height: 18.75rem;
-  border: 2px dashed $alto;
+  min-height: 10.75rem;
+  border: 2px dashed grey;
   border-radius: 2px !important;
-  &Compact {
-    @extend .flex-row-center;
-    min-height: 4.375rem !important;
-  }
-  &Active {
-    background-color: rgba($jellyBean, .08);
-  }
   &Title {
     margin-top: .875rem;
     margin-bottom: .875rem;
     text-align: center;
     font-weight: 700;
     font-size: 1.875rem;
-    color: $scorpion;
+    // color: $scorpion;
   }
   &Text {
     font-weight: 300;
     text-align: center;
     font-size: 1.09375rem;
-    color: $scorpion;
+    // color: $scorpion;
   }
   &Text {
     font-weight: 300;
     text-align: center;
     font-size: 1.09375rem;
     margin-right: .25rem;
-    color: $scorpion;
+    // color: $scorpion;
   }
   &.two-rows {
     min-height: 12rem;
