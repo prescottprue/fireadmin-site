@@ -39,20 +39,30 @@ export default class Project extends Component {
   }
 
   state = {
-    addInstanceOpen: false
+    addInstanceOpen: false,
+    selectedAccounts: []
   }
 
   addInstance = (instanceData) => {
     // console.log('add instance called', instanceData) // eslint-disable-line
-    return this.props.firebase.push('instances', instanceData)
+    if (!this.state.selectedAccounts.length) {
+      console.error('account must be selected') // eslint-disable-line
+      // TODO: Show an error message here
+      return
+    }
+    // console.log('this.state:', this.state) // eslint-disable-line
+    return this.props.firebase.push('instances', { ...instanceData, serviceAccounts: this.state.selectedAccounts })
+      .then(() => {
+
+      })
   }
 
   filesDrop = (files) => {
     // console.log('files', files) // eslint-disable-line
     const { auth: { uid }, params: { projectId }, firebase } = this.props
     return firebase.uploadFiles(`serviceAccounts/${uid}/${projectId}`, files, `serviceAccounts/${uid}/${projectId}`)
-      .then((snap) => {
-        return this.setState({ files })
+      .then((res) => {
+        return this.setState({ files, res })
       })
   }
 
@@ -97,6 +107,12 @@ export default class Project extends Component {
           onFilesDrop={this.filesDrop}
           onSubmit={this.addInstance}
           onRequestClose={() => this.setState({ addInstanceOpen: false })}
+          selectedAccounts={this.state.selectedAccounts}
+          onAccountClick={(accountKey) =>
+            this.setState({
+              selectedAccounts: [...this.state.selectedAccounts, accountKey]
+            })
+          }
           serviceAccounts={this.props.serviceAccounts}
         />
       </div>

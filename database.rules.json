@@ -8,12 +8,10 @@
         ".write": "auth !== null"
       }
     },
-    "usersPublic": {
-    },
     "users": {
       "$uid": {
         ".write": "auth !== null && $uid === auth.uid"
-      },
+      }
     }
   }
 }

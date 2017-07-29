@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Dialog from 'material-ui/Dialog'
-import { map } from 'lodash'
 import { reduxForm, Field } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'
 import FlatButton from 'material-ui/FlatButton'
 import FilesUploader from 'routes/Projects/routes/Project/components/FilesUploader'
+import ServiceAccounts from 'routes/Projects/routes/Project/components/ServiceAccounts'
 import { required } from 'utils/form'
 // import classes from './NewInstanceDialog.scss'
 
@@ -17,6 +17,7 @@ export const NewInstanceDialog = ({
   pristine,
   serviceAccounts,
   onRequestClose,
+  onAccountClick,
   ...other
 }) => (
   <Dialog
@@ -55,11 +56,10 @@ export const NewInstanceDialog = ({
         {
           serviceAccounts
           ?
-            map(serviceAccounts, ({ name }, key) =>
-              <div key={key}>
-                {name}
-              </div>
-            )
+            <ServiceAccounts
+              serviceAccounts={serviceAccounts}
+              onAccountClick={onAccountClick}
+            />
           :
             <div>No Service Accounts </div>
         }
@@ -80,6 +80,7 @@ NewInstanceDialog.propTypes = {
   pristine: PropTypes.bool.isRequired,
   serviceAccounts: PropTypes.object,
   onRequestClose: PropTypes.func,
+  onAccountClick: PropTypes.func,
   open: PropTypes.bool.isRequired // captured in other
 }
 
