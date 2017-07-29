@@ -1,0 +1,25 @@
+root: true
+
+parser: babel-eslint
+
+extends: [standard, standard-react, prettier]
+plugins: [babel, react, prettier]
+
+env:
+  browser: true
+  es6: true
+  node: true
+
+ecmaFeatures:
+  jsx: true
+  modules: true
+
+globals:
+  __DEV__: false
+  __COVERAGE__: false
+  __TEST__: false
+
+rules:
+  semi: [2, 'never']
+  no-console: 'error'
+  jsx-quotes: ['error', 'prefer-single']
