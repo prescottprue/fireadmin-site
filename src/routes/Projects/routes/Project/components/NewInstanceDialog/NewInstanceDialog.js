@@ -7,7 +7,7 @@ import FlatButton from 'material-ui/FlatButton'
 import FilesUploader from 'routes/Projects/routes/Project/components/FilesUploader'
 import ServiceAccounts from 'routes/Projects/routes/Project/components/ServiceAccounts'
 import { required } from 'utils/form'
-// import classes from './NewInstanceDialog.scss'
+import classes from './NewInstanceDialog.scss'
 
 export const NewInstanceDialog = ({
   onFilesDrop,
@@ -16,6 +16,7 @@ export const NewInstanceDialog = ({
   submitting,
   pristine,
   serviceAccounts,
+  selectedAccounts,
   onRequestClose,
   onAccountClick,
   ...other
@@ -44,12 +45,22 @@ export const NewInstanceDialog = ({
     ]}
     {...other}
   >
-    <div>
+    <div className={classes.body}>
       <Field
         component={TextField}
         name='name'
         floatingLabelText='Instance Name'
         validate={required}
+      />
+      <Field
+        component={TextField}
+        name='databaseURL'
+        floatingLabelText='Database URL'
+      />
+      <Field
+        component={TextField}
+        name='description'
+        floatingLabelText='Instance Description'
       />
       <div>
         <h4>Service Account</h4>
@@ -58,6 +69,7 @@ export const NewInstanceDialog = ({
           ?
             <ServiceAccounts
               serviceAccounts={serviceAccounts}
+              selectedAccounts={selectedAccounts}
               onAccountClick={onAccountClick}
             />
           :
@@ -79,6 +91,7 @@ NewInstanceDialog.propTypes = {
   submitting: PropTypes.bool.isRequired,
   pristine: PropTypes.bool.isRequired,
   serviceAccounts: PropTypes.object,
+  selectedAccounts: PropTypes.object,
   onRequestClose: PropTypes.func,
   onAccountClick: PropTypes.func,
   open: PropTypes.bool.isRequired // captured in other

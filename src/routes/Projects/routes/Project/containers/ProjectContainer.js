@@ -1,25 +1,32 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { firebaseConnect, isLoaded, isEmpty, dataToJS } from 'react-redux-firebase'
+import { firebaseConnect, isLoaded, isEmpty, populatedDataToJS, dataToJS } from 'react-redux-firebase'
+import { map, size, omit } from 'lodash'
 import RaisedButton from 'material-ui/RaisedButton'
 import Paper from 'material-ui/Paper'
 import { UserIsAuthenticated } from 'utils/router'
 import LoadingSpinner from 'components/LoadingSpinner'
-import Instances from 'routes/Projects/routes/Project/components/Instances'
+import Instance from 'routes/Projects/routes/Project/components/Instance'
 import NewInstanceDialog from 'routes/Projects/routes/Project/components/NewInstanceDialog'
+import notifActions from 'modules/notification'
 import classes from './ProjectContainer.scss'
+
+const populates = [{ child: 'instances', 'root': `instances` }]
 
 // Get project path from firebase based on params prop (route params)
 @UserIsAuthenticated
-@firebaseConnect(({ params, auth }) => ([
-  `projects/${params.projectId}`,
-  `serviceAccounts/${auth.uid}/${params.projectId}`
+@firebaseConnect(({ params }) => ([
+  { path: `projects/${params.projectId}`, populates },
+  `serviceAccounts/${params.projectId}`
 ]))
-@connect(({ firebase }, { params, auth }) => ({
-  project: dataToJS(firebase, `projects/${params.projectId}`),
-  serviceAccounts: dataToJS(firebase, `serviceAccounts/${auth.uid}/${params.projectId}`),
-}))
+@connect(({ firebase }, { params }) => ({
+  project: populatedDataToJS(firebase, `projects/${params.projectId}`, populates),
+  serviceAccounts: dataToJS(firebase, `serviceAccounts/${params.projectId}`),
+}),
+{
+  ...notifActions
+})
 export default class Project extends Component {
   static propTypes = {
     project: PropTypes.shape({
@@ -35,35 +42,64 @@ export default class Project extends Component {
     }),
     params: PropTypes.shape({ // eslint-disable-line react/no-unused-prop-types
       projectId: PropTypes.string.isRequired
-    })
+    }),
+    showError: PropTypes.func,
+    showSuccess: PropTypes.func,
   }
 
   state = {
     addInstanceOpen: false,
-    selectedAccounts: []
+    selectedAccounts: {}
   }
 
   addInstance = (instanceData) => {
-    // console.log('add instance called', instanceData) // eslint-disable-line
-    if (!this.state.selectedAccounts.length) {
-      console.error('account must be selected') // eslint-disable-line
-      // TODO: Show an error message here
+    if (!size(this.state.selectedAccounts)) {
+      this.props.showError('You must selected a service account')
       return
     }
-    // console.log('this.state:', this.state) // eslint-disable-line
-    return this.props.firebase.push('instances', { ...instanceData, serviceAccounts: this.state.selectedAccounts })
+    const { params: { projectId }, firebase } = this.props
+    return firebase.push('instances', { ...instanceData, serviceAccounts: this.state.selectedAccounts })
+      .then((snap) =>
+        firebase.update(`projects/${projectId}/instances`, { [snap.key]: true })
+      )
       .then(() => {
-
+        this.props.showSuccess('Instance added successfully')
+        this.setState({ addInstanceOpen: false })
       })
   }
 
   filesDrop = (files) => {
-    // console.log('files', files) // eslint-disable-line
     const { auth: { uid }, params: { projectId }, firebase } = this.props
-    return firebase.uploadFiles(`serviceAccounts/${uid}/${projectId}`, files, `serviceAccounts/${uid}/${projectId}`)
+    const filePath = `serviceAccounts/${uid}/${projectId}`
+    return firebase.uploadFiles(filePath, files, `serviceAccounts/${projectId}`)
       .then((res) => {
+        this.props.showSuccess('Service Account Uploaded successfully')
         return this.setState({ files, res })
       })
+  }
+
+  selectServiceAccount = (accountKey) => {
+    if (this.state.selectedAccounts[accountKey]) {
+      return this.setState({
+        selectedAccounts: omit(this.state.selectedAccounts, [accountKey])
+      })
+    }
+    this.setState({
+      selectedAccounts: { ...this.state.selectedAccounts, [accountKey]: true }
+    })
+  }
+
+  migrationRequest = () => {
+    return this.props.firebase.push('requests/migration',
+      {
+        databaseURL: 'https://xdotcom-ebce4.firebaseio.com/',
+        copyPath: 'instances',
+        serviceAccount: 'serviceAccounts/L7qNrKtd7Kaw6i85dnu4IcQXMYe2/-KqC7UG1_MGm1xgiZTIU/xdotcom-ddb4fe5e1ef0.json'
+      })
+      .then(() => {
+        this.props.showSuccess('Request created successfully')
+      })
+
   }
 
   render () {
@@ -75,7 +111,7 @@ export default class Project extends Component {
 
     if (isEmpty(project)) {
       return (
-        <div>
+        <div className={classes.empty}>
           Project not found
         </div>
       )
@@ -83,23 +119,51 @@ export default class Project extends Component {
 
     return (
       <div className={classes.container}>
+        <h2>{project.name}</h2>
         <Paper className={classes.paper}>
-          <h2>{project.name}</h2>
-          <RaisedButton
-            label='Add Instance'
-            onTouchTap={() => this.setState({ addInstanceOpen: true })}
-          />
+          <h2>Instances</h2>
           <div>
-            <h4>Instances</h4>
+            <RaisedButton
+              label='Add Instance'
+              onTouchTap={() => this.setState({ addInstanceOpen: true })}
+            />
+          </div>
+          <div>
             {
               project.instances
-              ?
-                <Instances
-                  instances={project.instances}
-                />
-              :
-                <span>No Instances</span>
+                ?
+                  <div className={classes.instances}>
+                    {
+                      map(project.instances, (inst, i) =>
+                        <Instance
+                          key={`Instance-${i}`}
+                          instance={inst}
+                        />
+                      )
+                    }
+                  </div>
+                :
+                  <span>No Instances</span>
             }
+          </div>
+        </Paper>
+        <Paper className={classes.paper}>
+          <h2>Migration</h2>
+          <div>
+            <RaisedButton
+              label='Run Migration'
+              onTouchTap={this.migrationRequest}
+            />
+          </div>
+          <div className='flex-row-center'>
+            <div classNamw='flex-column-center'>
+              <h4>From</h4>
+              <span>fireadmin (all instances soon supported)</span>
+            </div>
+            <div classNamw='flex-column-center'>
+              <h4>To</h4>
+              <span>One Of Your Instances</span>
+            </div>
           </div>
         </Paper>
         <NewInstanceDialog
@@ -108,11 +172,7 @@ export default class Project extends Component {
           onSubmit={this.addInstance}
           onRequestClose={() => this.setState({ addInstanceOpen: false })}
           selectedAccounts={this.state.selectedAccounts}
-          onAccountClick={(accountKey) =>
-            this.setState({
-              selectedAccounts: [...this.state.selectedAccounts, accountKey]
-            })
-          }
+          onAccountClick={this.selectServiceAccount}
           serviceAccounts={this.props.serviceAccounts}
         />
       </div>

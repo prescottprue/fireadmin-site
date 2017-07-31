@@ -2,13 +2,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { browserHistory, Router } from 'react-router'
 import { Provider } from 'react-redux'
-
-// Themeing/Styling
+import injectTapEventPlugin from 'react-tap-event-plugin'
 import Theme from 'theme'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import Notifications from 'containers/Notifications/Notifications'
 
-// Tap Plugin
-import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin()
 
 export default class AppContainer extends Component {
@@ -29,9 +27,12 @@ export default class AppContainer extends Component {
     const { routes, store } = this.props
     return (
       <Provider store={store}>
-        <Router history={browserHistory}>
-          {routes}
-        </Router>
+        <div style={{ height: '100%' }}>
+          <Router history={browserHistory}>
+            {routes}
+          </Router>
+          <Notifications />
+        </div>
       </Provider>
     )
   }

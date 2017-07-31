@@ -5,6 +5,7 @@ import LoginRoute from './Login'
 import SignupRoute from './Signup'
 import ProjectsRoute from './Projects'
 import AccountRoute from './Account'
+import MigrationRoute from './Migration'
 import NotFoundRoute from './NotFound'
 
 /*  Note: Instead of using JSX, we recommend using react-router
@@ -19,6 +20,7 @@ export const createRoutes = (store) => ({
     LoginRoute(store),
     SignupRoute(store),
     ProjectsRoute(store),
+    MigrationRoute(store),
     /* Place all Routes above here so NotFoundRoute can act as a 404 page */
     NotFoundRoute(store)
   ]

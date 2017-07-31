@@ -65,6 +65,7 @@ config.module.rules.push({
         'lodash',
         'transform-decorators-legacy',
         'babel-plugin-transform-class-properties',
+        'babel-plugin-transform-export-extensions',
         'babel-plugin-syntax-dynamic-import',
         [
           'babel-plugin-transform-runtime',

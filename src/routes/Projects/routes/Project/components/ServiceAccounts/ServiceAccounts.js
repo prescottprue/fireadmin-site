@@ -4,12 +4,16 @@ import PropTypes from 'prop-types'
 import Paper from 'material-ui/Paper'
 import classes from './ServiceAccounts.scss'
 
-export const ServiceAccounts = ({ serviceAccounts, onAccountClick }) => (
+export const ServiceAccounts = ({ serviceAccounts, onAccountClick, selectedAccounts }) => (
   <div className={classes.container}>
     {
-      map(serviceAccounts, ({ name }, key) =>
-        <Paper key={key} className={classes.account} onClick={onAccountClick}>
-          {name}
+      map(serviceAccounts, (account, key) =>
+        <Paper
+          key={key}
+          className={`${classes.account} ${selectedAccounts[key] ? classes.selected : ''}`}
+          onClick={() => onAccountClick(key, account)}
+        >
+          {account.name}
         </Paper>
       )
     }
@@ -18,6 +22,7 @@ export const ServiceAccounts = ({ serviceAccounts, onAccountClick }) => (
 
 ServiceAccounts.propTypes = {
   serviceAccounts: PropTypes.object,
+  selectedAccounts: PropTypes.object,
   onAccountClick: PropTypes.func
 }
 
