@@ -20,8 +20,8 @@ export const Home = () => (
       <div className='flex-column-center'>
         <h3>Three Options</h3>
         <span><Link to={paths.login}>Login</Link> to To use fireadmin.io directly</span>
-        <span>Run your own version of <a ref={fireadminSiteUrl}>fireadmin-site</a></span>
-        <span>Use <a ref={fireadminUrl}>fireadmin</a> to build your own admin pannel</span>
+        <span>Run your own version of <a href={fireadminSiteUrl}>fireadmin-site</a></span>
+        <span>Use <a href={fireadminUrl}>fireadmin</a> to build your own admin pannel</span>
       </div>
     </Paper>
   </div>
