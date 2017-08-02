@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { map, size } from 'lodash'
 import { DropTarget } from 'react-dnd'
-import Paper from 'material-ui/Paper'
+import ActionCard from '../ActionCard'
 import classes from './ActionsBoard.scss'
 
 const squareTarget = {
@@ -56,9 +56,10 @@ export default class ActionsBoard extends Component {
             <div className={`${classes.container} ${size(actions) ? classes.empty : ''}`}>
               {
                 map(actions, (action, key) => (
-                  <Paper key={`SelectedAction-${key}`} style={{ width: '100%' }}>
-                    <h2>{action.label}</h2>
-                  </Paper>
+                  <ActionCard
+                    key={`SelectedAction-${key}`}
+                    label={action.label}
+                  />
                 ))
               }
               <div className={classes.new}>

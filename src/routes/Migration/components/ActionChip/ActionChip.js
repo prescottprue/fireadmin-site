@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { omit } from 'lodash'
 import { DragSource } from 'react-dnd'
-import classes from './ActionCard.scss'
+import classes from './ActionChip.scss'
 
 /**
  * Implements the drag source contract.
@@ -21,18 +21,19 @@ const cardSource = {
  },
 }
 
-export const ActionCard = ({ label, icon, connectDragSource }) =>
+export const ActionChip = ({ label, icon, connectDragSource }) =>
   connectDragSource(
     <div className={classes.container}>
-      <h2>{label}</h2>
+      {icon}
+      <span className={classes.label}>{label}</span>
     </div>
   )
 
-ActionCard.propTypes = {
+ActionChip.propTypes = {
   migration: PropTypes.object
 }
 
 export default DragSource('action', cardSource, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
   isDragging: monitor.isDragging()
-}))(ActionCard)
+}))(ActionChip)
