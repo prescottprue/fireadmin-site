@@ -1,5 +1,16 @@
 @import 'base';
 
 .container {
-
+  @extend .flex-row;
+  width: 100%;
+}
+.sidebar {
+  width: 20%;
+}
+.main {
+  @extend .flex-column-center;
+  width: 80%;
+}
+.actionBoard {
+  width: 80%;
 }

@@ -129,17 +129,17 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 1. Deploy to firebase: `firebase deploy`
 **NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `npm run build` first.
 
-[npm-image]: https://img.shields.io/npm/v/fireadmin.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/fireadmin
-[travis-image]: https://img.shields.io/travis/prescottprue/fireadmin/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/prescottprue/fireadmin
-[daviddm-image]: https://img.shields.io/david/prescottprue/fireadmin.svg?style=flat-square
-[daviddm-url]: https://david-dm.org/prescottprue/fireadmin
-[climate-image]: https://img.shields.io/codeclimate/github/prescottprue/fireadmin.svg?style=flat-square
-[climate-url]: https://codeclimate.com/github/prescottprue/fireadmin
-[coverage-image]: https://img.shields.io/codeclimate/coverage/github/prescottprue/fireadmin.svg?style=flat-square
-[coverage-url]: https://codeclimate.com/github/prescottprue/fireadmin
+[npm-image]: https://img.shields.io/npm/v/fireadmin-site.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/fireadmin-site
+[travis-image]: https://img.shields.io/travis/prescottprue/fireadmin-site/master.svg?style=flat-square
+[travis-url]: https://travis-ci.org/prescottprue/fireadmin-site
+[daviddm-image]: https://img.shields.io/david/prescottprue/fireadmin-site.svg?style=flat-square
+[daviddm-url]: https://david-dm.org/prescottprue/fireadmin-site
+[climate-image]: https://img.shields.io/codeclimate/github/prescottprue/fireadmin-site.svg?style=flat-square
+[climate-url]: https://codeclimate.com/github/prescottprue/fireadmin-site
+[coverage-image]: https://img.shields.io/codeclimate/coverage/github/prescottprue/fireadmin-site.svg?style=flat-square
+[coverage-url]: https://codeclimate.com/github/prescottprue/fireadmin-site
 [license-image]: https://img.shields.io/npm/l/fireadmin.svg?style=flat-square
-[license-url]: https://github.com/prescottprue/fireadmin/blob/master/LICENSE
+[license-url]: https://github.com/prescottprue/fireadmin-site/blob/master/LICENSE
 [code-style-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
 [code-style-url]: http://standardjs.com/

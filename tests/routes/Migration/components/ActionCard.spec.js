@@ -1,14 +1,14 @@
 import React from 'react'
-import <%= pascalEntityName %> from 'components/<%= pascalEntityName %>'
+import { ActionCard } from 'routes/Migration/components/ActionCard/ActionCard'
 import { shallow } from 'enzyme'
 
-describe('(Component) <%= pascalEntityName %>', () => {
+describe('(Route: Migration Component) ActionCard', () => {
   let _component
 
   beforeEach(() => {
     _component = shallow(
-      <<%= pascalEntityName %>
-        <%= camelEntityName %>={{}}
+      <ActionCard
+        connectDragSource={(inp) => inp}
       />
     )
   })

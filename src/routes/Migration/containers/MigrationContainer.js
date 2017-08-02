@@ -2,9 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { firebaseConnect } from 'react-redux-firebase'
+import { DragDropContext } from 'react-dnd'
 import notifActions from 'modules/notification'
 import Migration from '../components/Migration'
+import HTML5Backend from 'react-dnd-html5-backend'
 
+@DragDropContext(HTML5Backend)
 @firebaseConnect()
 @connect(
   ({ firebase }) => ({
@@ -16,6 +19,10 @@ export default class MigrationContainer extends Component {
   static propTypes = {
     firebase: PropTypes.object,
     showSuccess: PropTypes.func.isRequired
+  }
+
+  state = {
+    selectedActions: []
   }
 
   migrationRequest = () => {
@@ -30,10 +37,16 @@ export default class MigrationContainer extends Component {
       })
   }
 
+  actionDrop = (action) => {
+    this.setState({ selectedActions: [...this.state.selectedActions, action] })
+  }
+
   render() {
     return (
       <Migration
         onCreateClick={this.migrationRequest}
+        actions={this.state.selectedActions}
+        onActionDrop={this.actionDrop}
       />
     )
   }

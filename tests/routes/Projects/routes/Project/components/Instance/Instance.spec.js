@@ -2,11 +2,15 @@ import React from 'react'
 import Instance from 'routes/Projects/routes/Project/components/Instance'
 import { shallow } from 'enzyme'
 
-describe('(Component) Instance', () => {
+describe('(Routes: Projects Routes: Project Component) Instance', () => {
   let _component
 
   beforeEach(() => {
-    _component = shallow(<Instance />)
+    _component = shallow(
+      <Instance
+        instance={{ name: 'testing' }}
+      />
+    )
   })
 
   it('Renders div', () => {
